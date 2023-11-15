@@ -1,0 +1,44 @@
+{% extends 'logins/base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-center">Listado de Productos</h2>
+        <!-- Botón para ir al carrito -->
+        <a href="{% url 'carrito' %}" class="btn btn-info">Ver Carrito</a>
+    </div>
+
+    <div class="row">
+        {% for producto in productos %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Precio: ${{ producto.precio }}</small>
+                            {% if producto.disponible %}
+                                <span class="badge bg-success">Disponible</span>
+                                <!-- Formulario para agregar producto al carrito -->
+                                <form action="{% url 'agregar_al_carrito' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Agregar al Carrito</button>
+                                </form>
+                            {% else %}
+                                <span class="badge bg-secondary">No Disponible</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-warning" role="alert">
+                No hay productos disponibles.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
