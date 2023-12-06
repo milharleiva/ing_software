@@ -1,0 +1,20 @@
+{% extends 'logins/base.html' %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h2>Detalles del Usuario</h2>
+    <div class="card">
+      <div class="card-header">
+        Información de Usuario
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Nombre de usuario: {{ usuario.username }}</li>
+        <li class="list-group-item">Nombre: {{ usuario.first_name }} {{ usuario.last_name }}</li>
+        <li class="list-group-item">Correo electrónico: {{ usuario.email }}</li>
+    
+      </ul>
+    </div>
+    <a href="{% url 'editar_usuario' usuario.username %}" class="btn btn-primary mt-3">Editar</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-3">Volver al Dashboard</a>
+  </div>
+{% endblock content %}

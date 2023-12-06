@@ -1,0 +1,14 @@
+{% extends 'logins/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Confirmación de Eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar al usuario "{{ usuario.username }}"?</p>
+    
+    <form action="{% url 'confirmar_eliminacion_usuario' usuario.username %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Eliminar Usuario" class="btn btn-danger">
+      <a href="/dashboard" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+{% endblock content %}

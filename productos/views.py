@@ -12,6 +12,8 @@ from django.urls import reverse
 import uuid
 from .forms import ProductoForm 
 from django.http import HttpResponseForbidden
+import logging
+
 
 def index(request):
     return render(request, 'logins/index.html')
@@ -198,18 +200,18 @@ def procesar_pago(request):
     
     return render(request, 'web/detalle_boleta.html', {'boleta': boleta})
 
-
+logger = logging.getLogger(__name__)
 @login_required
 def actualizar_carrito(request):
     if request.method == 'POST':
         item_id = request.POST.get('item_id')
         action = request.POST.get('action')
 
-        # Asegurarse de que el item_id pertenece al carrito del usuario
+        logger.debug(f"Actualizando carrito con item_id: {item_id}, acción: {action}")
         item = get_object_or_404(ItemCarrito, id=item_id, carrito__usuario=request.user)
 
         if action == 'remove_one':
-            # Reducir la cantidad de un producto o eliminar si la cantidad es 1
+
             if item.cantidad > 1:
                 item.cantidad -= 1
                 item.save()
@@ -218,11 +220,11 @@ def actualizar_carrito(request):
                 item.delete()
                 messages.info(request, 'El producto ha sido eliminado del carrito.')
         elif action == 'remove_all':
-            # Eliminar el producto del carrito
+            
             item.delete()
             messages.info(request, 'Todos los productos han sido eliminados del carrito.')
         elif action == 'update':
-            # Actualizar la cantidad de un producto
+            
             nueva_cantidad = request.POST.get('cantidad', 1)
             try:
                 nueva_cantidad = int(nueva_cantidad)
@@ -324,3 +326,32 @@ def mostrar_boleta(request, boleta_id):
     boleta = get_object_or_404(Boleta, pk=boleta_id)
     # Aquí puedes añadir lógica adicional para obtener los productos o ítems asociados a la boleta
     return render(request, 'web/mostrar_boleta.html', {'boleta': boleta})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')  
+def detalles_usuario(request, username):
+    usuario = get_object_or_404(User, username=username)
+    return render(request, 'web/detalles_usuario.html', {'usuario': usuario})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')  
+def confirmar_eliminacion_usuario(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.method == 'POST':
+        user.delete()
+        messages.success(request, f'El usuario {username} ha sido eliminado exitosamente.')
+        return redirect('dashboard')
+    else:
+        return render(request, 'web/confirmar_eliminar_usuario.html', {'usuario': user})
+
+
+@login_required
+def confirmar_eliminar_producto(request, item_id):
+    item = get_object_or_404(ItemCarrito, id=item_id, carrito__usuario=request.user)
+    if request.method == 'POST':
+        item.delete()
+        messages.info(request, 'El producto ha sido eliminado del carrito.')
+        return redirect('carrito')
+    else:
+        # Mostrar la plantilla de confirmación
+        return render(request, 'web/confirmar_eliminar_producto.html', {'item': item})

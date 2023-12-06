@@ -1,11 +1,67 @@
 {% extends 'logins/base.html' %}
-
+{%load static%}
 {% block title %}
 Inicio
 {% endblock title %}
 
 {% block content %}
-    <h2>Compra en ElectroTech</h2>
-    <p></p>
-    <p></p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Aquí iría el contenido de tu barra de navegación -->
+</nav>
+
+<div id="mainCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Aquí iría el carrusel de banners promocionales -->
+</div>
+
+<div class="container my-4">
+    <!-- Bloques de contenido para promociones especiales -->
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+            <!-- Contenido del bloque -->
+        </div>
+        <!-- Repite los bloques según sea necesario -->
+    </div>
+    
+    <h2 class="my-4">Mejores elecciones, mejores precios</h2>
+    <div class="row">
+        <!-- Tarjetas de productos -->
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="{% static 'images/carrusel1.webp' %}" alt="Producto">
+                <div class="card-body">
+                    <h5 class="card-title">Producto 1</h5>
+                    <p class="card-text">Descripción del producto.</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="{% static 'imagenes/' %}" alt="Producto">
+                <div class="card-body">
+                    <h5 class="card-title">Producto 2</h5>
+                    <p class="card-text">Descripción del producto.</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="{% static 'images/carrusel2.webp' %}" alt="Producto">
+                <div class="card-body">
+                    <h5 class="card-title">Producto 3</h5>
+                    <p class="card-text">Descripción del producto.</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <!-- Repite las tarjetas para otros productos -->
+    </div>
+</div>
+
+<footer class="bg-light py-4">
+    <div class="container">
+        <!-- Contenido del pie de página -->
+    </div>
+</footer>
 {% endblock content %}
