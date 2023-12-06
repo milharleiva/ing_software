@@ -80,13 +80,22 @@ def cerrar_sesion(request):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser, login_url='inicio')
 def dashboard(request):
     users = User.objects.all()
     data = {'users':users}
     return render(request, 'logins/dashboard.html', data)
 
-
+def change(request, username=None):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        user = User.objects.get(username=username)
+        password = request.POST.get('password')
+        user.set_password(password)
+        user.save()
+        return redirect('/')
+    else:
+        data = {'username':username}
+        return render(request, 'logins/change.html', data)
 
 
 @login_required

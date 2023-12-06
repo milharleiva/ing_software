@@ -1,37 +1,81 @@
 {% extends 'logins/base.html' %}
 
-{% block title %}
-Panel de control
-{% endblock title %}
-
 {% block content %}
-    <h2>Panel de control</h2>
-    <p>{{ user.username }}</p>
-    .
-    <p>Listado de usuarios registrados en el sistema</p>
-    {% if users %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre de usuario</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo electrónico</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for u in users %}
-            <tr>
-                <td>{{u.username}}</td>
-                <td>{{u.first_name}}</td>
-                <td>{{u.last_name}}</td>
-                <td>{{u.email}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <h2>Panel de control</h2>
+            {% if user.is_authenticated %}
+            <p><strong>Usuario actual:</strong> {{ user.username }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    {% if user.is_superuser  %}
+    <div class="row">
+        <div class="col">
+            <h4>Lista de usuarios registrados en el sistema</h4>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col">
+            {% if users %}
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre de usuario</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo electrónico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for u in users %}
+                            <tr>
+                                <td>{{u.username}}</td>
+                                <td>{{u.first_name}}</td>
+                                <td>{{u.last_name}}</td>
+                                <td>{{u.email}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="/change/{{u.username}}">Cambiar contraseña</a>
+                                    <a class="btn btn-primary btn-sm" href="{% url 'detalles_usuario' u.username %}">Detalle de usuario</a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'confirmar_eliminacion_usuario' u.username %}">Eliminar usuario</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <p>¡Aún no hay usuarios registrados!</p>
+            {% endif %}
+        </div>
+    </div>
+    
     {% else %}
-    <hr>
-    <p>¡Aun no hay usuarios registrados!</p>
-    {% endif%}
+    <div class="row">
+        <div class="col">
+            <h4>¡Bienvenido {{ user.first_name }}!</h4>
+            <hr>
+            <dl>
+                <dt>Nombre:</dt>
+                <dd>{{user.first_name}}</dd>
+                <dt>Apellido:</dt>
+                <dd>{{user.last_name}}</dd>
+                <dt>Nombre de usuario:</dt>
+                <dd>{{user.username}}</dd>
+                <dt>Correo electrónico:</dt>
+                <dd>{{user.email}}</dd>
+            </dl>
+            <a class="btn btn-secondary" href="/change/{{user.username}}">Cambiar contraseña</a>
+            <a class="btn btn-primary" href="/">Inicio</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}
