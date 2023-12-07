@@ -16,7 +16,7 @@ class ProductoForm(forms.ModelForm):
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         validators=[RegexValidator(
-            regex=r'^[\w.-]+\Z', 
+            regex=r'^[ \w.-]+\Z', 
             message="This value may contain only letters, numbers, and ./-/_ characters.",
             flags=re.ASCII
         )]

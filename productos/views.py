@@ -322,9 +322,9 @@ def detalle_boleta(request, boleta_id):
     })
 
 def mostrar_boleta(request, boleta_id):
-    # Aquí asumimos que pasas un ID de boleta a la vista
+  
     boleta = get_object_or_404(Boleta, pk=boleta_id)
-    # Aquí puedes añadir lógica adicional para obtener los productos o ítems asociados a la boleta
+   
     return render(request, 'web/mostrar_boleta.html', {'boleta': boleta})
 
 @login_required
@@ -353,5 +353,40 @@ def confirmar_eliminar_producto(request, item_id):
         messages.info(request, 'El producto ha sido eliminado del carrito.')
         return redirect('carrito')
     else:
-        # Mostrar la plantilla de confirmación
+        
         return render(request, 'web/confirmar_eliminar_producto.html', {'item': item})
+    
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff, login_url='/login/')  
+def gestion_productos(request):
+    productos = Producto.objects.all()
+    return render(request, 'web/gestion_productos.html', {'productos': productos})
+
+
+def confirmar_eliminar_gestion(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+
+    if request.method == 'POST':
+        producto.delete()
+        messages.success(request, 'Producto eliminado con éxito.')
+        return redirect('gestion_productos')
+
+    return render(request, 'web/confirmar_eliminar_gestion.html', {'producto': producto})
+
+
+def editar_producto(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Producto actualizado con éxito.')
+            return redirect('gestion_productos')
+    else:
+        form = ProductoForm(instance=producto)
+
+    return render(request, 'web/editar_producto.html', {'form': form})
+
+

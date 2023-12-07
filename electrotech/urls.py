@@ -25,5 +25,8 @@ urlpatterns = [
     path('detalle_boleta/<int:boleta_id>/', views.detalle_boleta, name='detalle_boleta'),
     path('usuario/<str:username>/', views.detalles_usuario, name='detalles_usuario'),
     path('confirmar_eliminacion_usuario/<str:username>/', views.confirmar_eliminacion_usuario, name='confirmar_eliminacion_usuario'),
-     path('confirmar-eliminar-producto/<int:item_id>/', views.confirmar_eliminar_producto, name='confirmar_eliminar_producto'),
+    path('confirmar-eliminar-producto/<int:item_id>/', views.confirmar_eliminar_producto, name='confirmar_eliminar_producto'),
+    path('gestion_productos', views.gestion_productos, name='gestion_productos'),
+     path('editar_producto/<int:producto_id>/', views.editar_producto, name='editar_producto'),
+    path('confirmar-eliminar-gestion/<int:producto_id>/', views.confirmar_eliminar_gestion, name='confirmar_eliminar_gestion'),
 ]

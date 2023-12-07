@@ -1,73 +1,55 @@
-/* Estilos generales */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.header {
-    background-color: #ffffff;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-    font-size: 2em;
+/* Estilos Generales */
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
 }
 
-.store-name {
-    font-size: 1.5em;
-    color: #555;
+/* Estilos del Carrusel */
+.carousel-inner {
+    max-height: 500px;
 }
 
-.carousel {
-    margin: 20px 0;
-    background-color: #ddd;
-    padding: 20px;
-    text-align: center;
+.carousel-item img {
+    width: 100%;
+    object-fit: cover;
 }
 
-.product-display {
-    background-color: #fff;
-    padding: 20px;
+/* Estilos de las Tarjetas de Productos */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
 }
 
-.products {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.card:hover {
+    transform: translateY(-5px);
 }
 
-.product {
-    background-color: #f9f9f9;
-    padding: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
 }
 
-/* Añadir estilos para adaptabilidad en diferentes tamaños de pantalla */
+/* Estilos del Footer */
+footer {
+    background-color: #007bff;
+    color: #fff;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #dddddd;
+}
+
+/* Diseño Responsive */
 @media (max-width: 768px) {
-    .products {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .header {
-        flex-direction: column;
+    .carousel-inner {
+        max-height: 300px;
     }
 
-    .products {
-        grid-template-columns: 1fr;
+    .card-img-top {
+        height: 150px;
     }
 }
